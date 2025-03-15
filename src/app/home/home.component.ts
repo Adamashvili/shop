@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../api.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import { ApiService } from '../api.service';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  constructor(public service: ApiService) {}
+  constructor(public service: ApiService, public cookies: CookieService) {}
   ngOnInit(): void {
     this.getAll();
   }
@@ -26,10 +27,16 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart(item: any) {
-    let cardInfo = {
-      id: item._id,
-      quantity: 1,
-    };
-    this.service.getUser().subscribe((data: any) => data.cartID ? this.service.updateCart(cardInfo).subscribe() : this.service.postToCart(cardInfo).subscribe());
+    if(this.cookies.get("user")) {
+      let cardInfo = {
+        id: item._id,
+        quantity: 1,
+      };
+      this.service.getUser().subscribe((data: any) => data.cartID ? this.service.updateCart(cardInfo).subscribe() : this.service.postToCart(cardInfo).subscribe());
+    }
+    else {
+      alert("არ ხართ ავტორიზებული!!!")
+    }
+   
   }
 }
