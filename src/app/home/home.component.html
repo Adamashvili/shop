@@ -1,0 +1,15 @@
+<p>home works!</p>
+<button routerLink="/profile">Go TO PROFILE</button>
+
+<section class="d-flex justify-content-center flex-wrap gap-5">
+    @for (item of allCards; track $index) {
+        <div class="card" style="width: 18rem;">
+            <img [src]="!item.images[0] ? noImage : item.images[0]" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{item.title}}</h5>
+              <p class="card-text"><b>{{item.stock}}</b> Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <button (click)="addToCart(item)" [disabled]="item.stock == 0" href="#" class="btn btn-primary">Go somewhere</button>
+            </div>
+          </div>
+    }
+</section>
